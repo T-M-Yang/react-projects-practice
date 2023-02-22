@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import data from "./data";
 import List from "./List";
 
+let idx = 0;
+
 function App() {
   const [people, setPeople] = useState(data);
 
@@ -9,10 +11,10 @@ function App() {
     const newPeople = [...people];
     newPeople.pop();
     setPeople(newPeople);
+    if (idx === data.length) idx = 0;
   };
 
   const handleAdd = () => {
-    let idx = 0;
     const newPeople = [...people];
     if (idx < data.length) {
       newPeople.push(data[idx]);
@@ -28,8 +30,22 @@ function App() {
         <List people={people} />
         <button onClick={handleAdd}>Add one</button>
         <button onClick={handleMinus}>Minus one</button>
-        <button onClick={() => setPeople(data)}>Add people</button>
-        <button onClick={() => setPeople([])}>clear all</button>
+        <button
+          onClick={() => {
+            setPeople(data);
+            idx = data.length;
+          }}
+        >
+          Add people
+        </button>
+        <button
+          onClick={() => {
+            setPeople([]);
+            idx = 0;
+          }}
+        >
+          clear all
+        </button>
       </section>
     </main>
   );
